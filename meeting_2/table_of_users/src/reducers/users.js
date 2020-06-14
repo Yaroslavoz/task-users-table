@@ -1,27 +1,31 @@
-export function usersHasErrored(state = false, action) {
-  switch (action.type) {
-      case 'ITEMS_HAS_ERRORED':
-          return action.hasErrored;
-
-      default:
-          return state;
-  }
+const initialState = {
+  users: [],
+  hasErrored: false,
+  isLoading: false
 }
 
-export function usersIsLoading(state = false, action) {
-  switch (action.type) {
-      case 'ITEMS_IS_LOADING':
-          return action.isLoading;
-
-      default:
-          return state;
-  }
-}
-
-export function users(state = [], action) {
+export function users(state = initialState, action) {
   switch (action.type) {
       case 'ITEMS_FETCH_DATA_SUCCESS':
-          return action.users;
+      
+          
+      return {
+            ...state,
+            users: action.users
+          }
+      
+      case 'ITEMS_IS_LOADING':
+          return {
+            ...state,
+            isLoading: !state.isLoading
+          }
+
+      case 'ITEMS_HAS_ERRORED':
+          return {
+            ...state,
+            hasErrored: action.hasErrored
+          }
+      
 
       default:
           return state;

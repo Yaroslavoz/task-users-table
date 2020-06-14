@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux'
-import { users, usersHasErrored, usersIsLoading } from './users'
+import { users } from './users'
 
 export default combineReducers({
-    users,
-    usersHasErrored,
-    usersIsLoading
+    users
 })

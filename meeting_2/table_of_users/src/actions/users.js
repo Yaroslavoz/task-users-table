@@ -5,36 +5,29 @@ export function usersHasErrored(bool) {
   };
 }
 
-export function usersIsLoading(bool) {
-  return {
-      type: 'ITEMS_IS_LOADING',
-      isLoading: bool
-  };
-}
 
-export function usersFetchDataSuccess(users) {
-  return {
-      type: 'ITEMS_FETCH_DATA_SUCCESS',
-      users
-  };
-}
 
 export function usersFetchData(url) {
-  return (dispatch) => {
-      dispatch(usersIsLoading(true));
+  return async (dispatch) => {
+      dispatch( {type: 'ITEMS_IS_LOADING'});
 
-      fetch(url)
+      await fetch(url)
           .then((response) => {
               if (!response.ok) {
                   throw Error(response.statusText);
               }
 
-              dispatch(usersIsLoading(false));
+              dispatch({type: 'ITEMS_IS_LOADING'});
 
               return response;
           })
-          .then((response) => response.json())
-          .then((items) => dispatch(usersFetchDataSuccess(items)))
+          .then((response) =>response.json())
+           
+          
+          .then((data) => dispatch( {
+            type: 'ITEMS_FETCH_DATA_SUCCESS',
+            users: data
+        }))
           .catch(() => dispatch(usersHasErrored(true)));
   };
 }
