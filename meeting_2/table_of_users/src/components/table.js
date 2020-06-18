@@ -9,7 +9,7 @@ const Table = () => {
   const { users } = useSelector(state => state.users)
   const dispatch = useDispatch()
   
-  console.log(checkedUsers)
+  
   
 
 
@@ -22,7 +22,8 @@ const Table = () => {
     ? checkedUsers.filter(it => it !== id) 
     : [...checkedUsers, id])
   }
-
+  console.log(checkedUsers);
+  
   const checkAll = () => {
     setChecked(
       checkedUsers.length !== users.length 
@@ -30,12 +31,13 @@ const Table = () => {
       :[]
     )
   }
-
+  //const headerElement = users[0]
   const headerElement = ['id', 'name', 'email', 'phone', 'choose']
   const renderHeader = () => {
     
 
-    return headerElement.map((key, index) => {
+    return users && headerElement.map((key, index) => {
+      //console.log(users[0])
         return <th key={index}>{key.toUpperCase()}</th>
     })
   }
@@ -43,7 +45,7 @@ const Table = () => {
   const renderBody = () => {
     return users && users.map(({ id, name, email, phone }) => {
         return (
-            <tr key={id}>
+            <tr key={id} className={checkedUsers.includes(id) ? 'bg-gray-400': ''}>
                 <td className="px-4 py-2">{id}</td>
                 <td className="px-4 py-2">{name}</td>
                 <td className="px-4 py-2">{email}</td>
@@ -64,18 +66,21 @@ const Table = () => {
       return <p>Loading…</p>;
   }
   return (
+    
+    
     <>
+      <div className="w-2/3 rounded overflow-hidden shadow-lg text-center mt-5">
         <h1 id='title'>Users Table</h1>
         <div className="md:flex md:items-center mb-6">
         <div className="md:w-1/3" />
           <label className="md:w-2/3 block text-gray-500 font-bold">
-            <input className="mr-2 leading-tight" type="checkbox" onChange={ checkAll} checked={users.length === checkedUsers.length}/>
+            <input className="mr-2 leading-tight" type="checkbox" onChange={checkAll} checked={users.length === checkedUsers.length}/>
             <span className="text-sm">
               Choose all!
             </span>
           </label>
         </div>
-        <table id='users' className="table-auto">
+        <table id='users' className="table-auto text-center content-around">
             <thead>
                 <tr>{renderHeader()}</tr>
             </thead>
@@ -95,7 +100,7 @@ const Table = () => {
           
           
         </table>
-       
+        </div>
         </>
         )
 
